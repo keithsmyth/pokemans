@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity$PlaceholderFragment">
+
+    <ImageButton
+        android:id="@+id/btn_clear_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="2dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/pokemon_clear_filter"
+        android:src="@android:drawable/ic_notification_clear_all"/>
+
+    <EditText
+        android:id="@+id/txt_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/pokemon_filter"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/lst_pokemon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/txt_filter"/>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>
