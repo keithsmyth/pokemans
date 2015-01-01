@@ -10,8 +10,17 @@ public class Pokemon {
 
   public List<PokeType> types;
 
+  public List<Evolution> evolutions;
+
   public static class PokeType {
     public String name;
     public String resource_uri;
+  }
+
+  public static class Evolution {
+    public int level;
+    public String method;
+    public String resource_uri;
+    public String to;
   }
 }

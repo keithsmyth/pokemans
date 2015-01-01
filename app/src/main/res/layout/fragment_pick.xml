@@ -4,6 +4,12 @@
                 android:layout_height="match_parent"
                 tools:context=".MainActivity$PlaceholderFragment">
 
+    <EditText
+        android:id="@+id/txt_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/pokemon_filter"/>
+
     <ImageButton
         android:id="@+id/btn_clear_filter"
         android:layout_width="wrap_content"
@@ -13,12 +19,6 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/pokemon_clear_filter"
         android:src="@android:drawable/ic_notification_clear_all"/>
-
-    <EditText
-        android:id="@+id/txt_filter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/pokemon_filter"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lst_pokemon"

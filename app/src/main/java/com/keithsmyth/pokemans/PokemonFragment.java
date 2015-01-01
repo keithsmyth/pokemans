@@ -11,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.keithsmyth.pokemans.adapter.EvolutionAdapter;
 import com.keithsmyth.pokemans.adapter.PokeTypeAdapter;
 import com.keithsmyth.pokemans.data.Callback;
 import com.keithsmyth.pokemans.model.Pokemon;
+
+import java.util.ArrayList;
 
 /**
  * @author keithsmyth
@@ -29,7 +32,8 @@ public class PokemonFragment extends Fragment {
   }
 
   private TextView nameText;
-  private RecyclerView recyclerView;
+  private RecyclerView typesList;
+  private RecyclerView evolutionsList;
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                                Bundle savedInstanceState) {
@@ -37,9 +41,13 @@ public class PokemonFragment extends Fragment {
 
     nameText = (TextView) view.findViewById(R.id.txt_name);
 
-    recyclerView = (RecyclerView) view.findViewById(R.id.lst_types);
-    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    recyclerView.setHasFixedSize(true);
+    typesList = (RecyclerView) view.findViewById(R.id.lst_types);
+    typesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    typesList.setAdapter(new PokeTypeAdapter(new ArrayList<Pokemon.PokeType>()));
+
+    evolutionsList = (RecyclerView) view.findViewById(R.id.lst_evolutions);
+    evolutionsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    evolutionsList.setAdapter(new EvolutionAdapter(new ArrayList<Pokemon.Evolution>()));
 
     return view;
   }
@@ -72,7 +80,8 @@ public class PokemonFragment extends Fragment {
   private void populate(Pokemon pokemon) {
     if (getView() == null) return;
     nameText.setText(pokemon.name);
-    recyclerView.setAdapter(new PokeTypeAdapter(pokemon.types));
+    typesList.setAdapter(new PokeTypeAdapter(pokemon.types));
+    evolutionsList.setAdapter(new EvolutionAdapter(pokemon.evolutions));
   }
 
 }

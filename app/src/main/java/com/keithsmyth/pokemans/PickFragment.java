@@ -89,6 +89,11 @@ public class PickFragment extends Fragment {
     });
   }
 
+  @Override public void onStop() {
+    super.onStop();
+    Utils.closeKeyboard(getActivity(), filterText);
+  }
+
   private void setLoading(boolean loading) {
     if (getView() == null) return;
     getView().findViewById(R.id.progress).setVisibility(loading ? View.VISIBLE : View.GONE);
