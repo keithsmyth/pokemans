@@ -3,9 +3,14 @@
 
     <string name="app_name">Pokemans</string>
     <string name="action_settings">Settings</string>
+
     <string name="pokemon_filter">Type to filter the list</string>
+    <string name="pokemon_clear_filter">Clear filter</string>
+
     <string name="poketype_super_effective">Super Effective:</string>
     <string name="poketype_weakness">Weakness:</string>
-    <string name="pokemon_clear_filter">Clear filter</string>
+    <string name="poketype_ineffective">Ineffective:</string>
+    <string name="poketype_no_effect">No effect:</string>
+    <string name="poketype_resistance">Resistance:</string>
 
 </resources>

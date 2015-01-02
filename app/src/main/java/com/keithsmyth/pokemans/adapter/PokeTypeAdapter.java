@@ -1,10 +1,12 @@
 package com.keithsmyth.pokemans.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.keithsmyth.pokemans.App;
@@ -45,27 +47,44 @@ public class PokeTypeAdapter extends RecyclerView.Adapter<PokeTypeAdapter.PokeTy
   public static class PokeTypeViewHolder extends RecyclerView.ViewHolder {
 
     private final TextView nameText;
-    private final TextView superText;
-    private final TextView weakText;
+    private final LinearLayout superLayout;
+    private final LinearLayout weakLayout;
+    private final LinearLayout ineffectiveLayout;
+    private final LinearLayout noEffectLayout;
+    private final LinearLayout resistanceLayout;
+    private final Context context;
 
     public PokeTypeViewHolder(View itemView) {
       super(itemView);
       nameText = (TextView) itemView.findViewById(R.id.txt_name);
-      superText = (TextView) itemView.findViewById(R.id.txt_super);
-      weakText = (TextView) itemView.findViewById(R.id.txt_weak);
+      superLayout = (LinearLayout) itemView.findViewById(R.id.layout_super);
+      weakLayout = (LinearLayout) itemView.findViewById(R.id.layout_weak);
+      ineffectiveLayout = (LinearLayout) itemView.findViewById(R.id.layout_ineffective);
+      noEffectLayout = (LinearLayout) itemView.findViewById(R.id.layout_no_effect);
+      resistanceLayout = (LinearLayout) itemView.findViewById(R.id.layout_resistance);
+      context = itemView.getContext();
     }
 
     public void bind(final Pokemon.PokeType pokeType) {
       nameText.setText(pokeType.name);
-      superText.setText(null);
-      weakText.setText(null);
+
+      superLayout.removeAllViews();
+      weakLayout.removeAllViews();
 
       App.getPokemonData().getPokeType(pokeType.resource_uri, new Callback<PokeType>() {
         @Override public void onSuccess(PokeType model) {
           if (!pokeType.name.equalsIgnoreCase(model.name)) return;
 
-          setTypeEffectiveness(superText, model.super_effective);
-          setTypeEffectiveness(weakText, model.weakness);
+          setTypeEffectiveness(superLayout, model.super_effective,
+              context.getString(R.string.poketype_super_effective));
+          setTypeEffectiveness(weakLayout, model.weakness, context.getString(R.string
+              .poketype_weakness));
+          setTypeEffectiveness(ineffectiveLayout, model.ineffective, context.getString(R.string
+              .poketype_ineffective));
+          setTypeEffectiveness(noEffectLayout, model.no_effect, context.getString(R.string
+              .poketype_no_effect));
+          setTypeEffectiveness(resistanceLayout, model.resistance, context.getString(R.string
+              .poketype_resistance));
         }
 
         @Override public void onFail(String msg) {
@@ -75,14 +94,22 @@ public class PokeTypeAdapter extends RecyclerView.Adapter<PokeTypeAdapter.PokeTy
       });
     }
 
-    private void setTypeEffectiveness(TextView textView, List<Lookup> lookupList) {
+    private void setTypeEffectiveness(LinearLayout linearLayout, List<Lookup> lookupList,
+                                      String title) {
+      LayoutInflater inflater = LayoutInflater.from(linearLayout.getContext());
+      LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup
+          .LayoutParams.WRAP_CONTENT, 1);
+      linearLayout.addView(getTypeItemView(inflater, title, linearLayout), layoutParams);
       if (lookupList == null) return;
-      StringBuilder output = new StringBuilder();
       for (Lookup l : lookupList) {
-        if (output.length() > 0) output.append(", ");
-        output.append(l.name);
+        linearLayout.addView(getTypeItemView(inflater, l.name, linearLayout), layoutParams);
       }
-      textView.setText(output.toString());
+    }
+
+    private View getTypeItemView(LayoutInflater inflater, String title, ViewGroup parent) {
+      TextView view = (TextView) inflater.inflate(R.layout.pokemon_poketype_item, parent, false);
+      view.setText(title);
+      return view;
     }
   }
 }
