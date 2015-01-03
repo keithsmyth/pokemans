@@ -27,7 +27,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
   public PokemonAdapter(List<Pokedex.Pokemon> pokemonList, PokemonItemClickListener
       itemClickListener) {
     // orig values
-    this.origPokemonList = pokemonList;
+    this.origPokemonList = pokemonList == null ? new ArrayList<Pokedex.Pokemon>() : pokemonList;
     sortPokemonList();
     // filtered values
     this.pokemonList = new ArrayList<>();
