@@ -33,5 +33,5 @@
 -keep class sun.misc.Unsafe { *; }
 
 #models / api interface
--keep class com.keithsmyth.pokemans.models.** { *; }
+-keep class com.keithsmyth.pokemans.model.** { *; }
 -keep interface com.keithsmyth.pokemans.api.** { *; }
