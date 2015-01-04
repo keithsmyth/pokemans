@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.keithsmyth.pokemans.App;
-import com.keithsmyth.pokemans.PokemonFragment;
+import com.keithsmyth.pokemans.ui.PokemonFragment;
 import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.data.Callback;
 import com.keithsmyth.pokemans.model.Lookup;

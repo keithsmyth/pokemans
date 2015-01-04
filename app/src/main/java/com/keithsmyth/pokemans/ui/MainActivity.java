@@ -1,4 +1,4 @@
-package com.keithsmyth.pokemans;
+package com.keithsmyth.pokemans.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.model.Pokedex;
 
 

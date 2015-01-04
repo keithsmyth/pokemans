@@ -1,4 +1,4 @@
-package com.keithsmyth.pokemans;
+package com.keithsmyth.pokemans.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.keithsmyth.pokemans.App;
+import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.adapter.EvolutionAdapter;
 import com.keithsmyth.pokemans.adapter.PokeTypeAdapter;
 import com.keithsmyth.pokemans.data.Callback;
