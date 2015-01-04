@@ -13,4 +13,6 @@
     <string name="poketype_no_effect">No effect:</string>
     <string name="poketype_resistance">Resistance:</string>
 
+    <string name="party_empty_list">Add pokémon to your party</string>
+
 </resources>

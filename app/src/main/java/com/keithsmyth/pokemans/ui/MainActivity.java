@@ -18,7 +18,7 @@ public class MainActivity extends Activity implements PickFragment.PickListener 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     if (savedInstanceState == null) {
-      loadFragment(new PickFragment(), false);
+      loadFragment(new PartyFragment(), false);
     }
   }
 
