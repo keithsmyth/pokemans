@@ -1,13 +1,13 @@
 package com.keithsmyth.pokemans.data;
 
 import com.keithsmyth.pokemans.api.PokemonService;
+import com.keithsmyth.pokemans.model.Party;
 import com.keithsmyth.pokemans.model.PokeType;
 import com.keithsmyth.pokemans.model.Pokedex;
 import com.keithsmyth.pokemans.model.Pokemon;
 
 import java.util.HashMap;
 
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -17,18 +17,18 @@ import retrofit.client.Response;
 public final class PokemonDataImpl implements PokemonData {
 
   public static final String GENERIC_ERROR = "There was an errors";
-  private static PokemonService pokemonService;
+
   private static Pokedex pokedex;
   private static HashMap<String, Pokemon> pokemonLookup = new HashMap<>();
   private static HashMap<String, PokeType> pokeTypeLookup = new HashMap<>();
 
-  static {
-    pokemonService = new RestAdapter.Builder()
-        .setEndpoint("http://pokeapi.co/")
-        .build()
-        .create(PokemonService.class);
-  }
+  private final PokemonService pokemonService;
+  private final PreferenceWrapper preferenceWrapper;
 
+  public PokemonDataImpl(PokemonService pokemonService, PreferenceWrapper preferenceWrapper) {
+    this.pokemonService = pokemonService;
+    this.preferenceWrapper = preferenceWrapper;
+  }
 
   @Override public void getPokedex(final Callback<Pokedex> callback) {
     // cache
@@ -88,5 +88,17 @@ public final class PokemonDataImpl implements PokemonData {
         callback.onFail(error != null ? error.getMessage() : GENERIC_ERROR);
       }
     });
+  }
+
+  @Override public void getParty(Callback<Party> callback) {
+    String partyString = preferenceWrapper.getPartyList();
+    callback.onSuccess(Party.fromJson(partyString));
+  }
+
+  @Override public void addToParty(Party.Member member) {
+    String partyString = preferenceWrapper.getPartyList();
+    Party party = Party.fromJson(partyString);
+    party.memberList.add(member);
+    preferenceWrapper.setPartyList(party.getAsJson());
   }
 }
