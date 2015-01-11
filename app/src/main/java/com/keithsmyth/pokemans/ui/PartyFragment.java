@@ -1,11 +1,16 @@
 package com.keithsmyth.pokemans.ui;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -16,15 +21,35 @@ import com.keithsmyth.pokemans.adapter.PartyAdapter;
 import com.keithsmyth.pokemans.data.Callback;
 import com.keithsmyth.pokemans.model.Party;
 
-import java.util.Random;
-
 /**
  * @author keithsmyth
  */
 public class PartyFragment extends Fragment {
 
+  public static final int PICK_REQUEST_CODE = 1;
   private View emptyView;
   private RecyclerView partyListView;
+
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setHasOptionsMenu(true);
+  }
+
+  @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    inflater.inflate(R.menu.menu_party, menu);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    int id = item.getItemId();
+
+    if (id == R.id.action_clear) {
+      App.getPokemonData().clearParty();
+      refreshParty();
+      return true;
+    }
+
+    return super.onOptionsItemSelected(item);
+  }
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                                Bundle savedInstanceState) {
@@ -39,17 +64,20 @@ public class PartyFragment extends Fragment {
 
     view.findViewById(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        // add a random id
-        // todo: implement add to party
-        Party.Member member = new Party.Member();
-        member.id = new Random().nextLong();
-        member.name = String.valueOf(member.id);
-        App.getPokemonData().addToParty(member);
-        refreshParty();
+        Intent intent = new Intent(getActivity(), PickActivity.class);
+        startActivityForResult(intent, PICK_REQUEST_CODE);
       }
     });
 
     return view;
+  }
+
+  @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == PICK_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+      Party.Member member = Party.Member.fromJson(data.getStringExtra(PickActivity.POKEMON_KEY));
+      App.getPokemonData().addToParty(member);
+      refreshParty();
+    }
   }
 
   @Override public void onStart() {

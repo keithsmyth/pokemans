@@ -13,5 +13,12 @@ public class Pokedex {
     public String name;
 
     public String resource_uri;
+
+    public long retrieveId() {
+      if (resource_uri == null) return 0;
+      String uri = resource_uri;
+      if (uri.endsWith("/")) uri = uri.substring(0, uri.length() - 1);
+      return Long.valueOf(uri.substring(uri.lastIndexOf("/") + 1));
+    }
   }
 }

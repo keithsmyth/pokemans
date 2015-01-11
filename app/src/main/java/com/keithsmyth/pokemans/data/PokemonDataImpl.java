@@ -101,4 +101,8 @@ public final class PokemonDataImpl implements PokemonData {
     party.memberList.add(member);
     preferenceWrapper.setPartyList(party.getAsJson());
   }
+
+  @Override public void clearParty() {
+    preferenceWrapper.setPartyList(null);
+  }
 }

@@ -18,4 +18,6 @@ public interface PokemonData {
   public void getParty(Callback<Party> callback);
 
   public void addToParty(Party.Member member);
+
+  public void clearParty();
 }

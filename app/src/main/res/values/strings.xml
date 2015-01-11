@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Pokemans</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_clear">Clear Party</string>
 
     <string name="pokemon_filter">Type to filter the list</string>
     <string name="pokemon_clear_filter">Clear filter</string>
@@ -14,5 +14,7 @@
     <string name="poketype_resistance">Resistance:</string>
 
     <string name="party_empty_list">Add pokémon to your party</string>
+
+    <string name="pick_name">Choose your Pokeêmon</string>
 
 </resources>
