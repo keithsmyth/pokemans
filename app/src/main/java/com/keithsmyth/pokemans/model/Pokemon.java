@@ -8,9 +8,15 @@ import java.util.List;
 public class Pokemon {
   public String name;
 
+  public long national_id;
+
+  public String resource_uri;
+
   public List<PokeType> types;
 
   public List<Evolution> evolutions;
+
+  //todo: add moves here
 
   public static class PokeType {
     public String name;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +27,20 @@ import java.util.ArrayList;
 public class PokemonFragment extends Fragment {
 
   private static final String EXTRA_URI = "extra-uri";
+  private static final String EXTRA_ID = "extra-id";
+  private Callback<Pokemon> callback;
 
   public static PokemonFragment instantiate(String uri) {
     Bundle bundle = new Bundle();
     bundle.putString(EXTRA_URI, uri);
+    PokemonFragment fragment = new PokemonFragment();
+    fragment.setArguments(bundle);
+    return fragment;
+  }
+
+  public static PokemonFragment instantiate(Long id) {
+    Bundle bundle = new Bundle();
+    bundle.putLong(EXTRA_ID, id);
     PokemonFragment fragment = new PokemonFragment();
     fragment.setArguments(bundle);
     return fragment;
@@ -63,7 +74,7 @@ public class PokemonFragment extends Fragment {
     if (bundle == null) return;
 
     setLoading(true);
-    App.getPokemonData().getPokemon(bundle.getString(EXTRA_URI), new Callback<Pokemon>() {
+    callback = new Callback<Pokemon>() {
       @Override public void onSuccess(Pokemon model) {
         setLoading(false);
         populate(model);
@@ -73,7 +84,17 @@ public class PokemonFragment extends Fragment {
         setLoading(false);
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
       }
-    });
+    };
+
+    // can be passed id or uri
+    String uri = bundle.getString(EXTRA_URI, null);
+    if (TextUtils.isEmpty(uri)) {
+      Long id = bundle.getLong(EXTRA_ID);
+      App.getPokemonData().getPokemon(id, callback);
+    } else {
+      App.getPokemonData().getPokemon(uri, callback);
+    }
+
   }
 
   private void setLoading(boolean loading) {

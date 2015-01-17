@@ -20,6 +20,7 @@ public final class PokemonDataImpl implements PokemonData {
 
   private static Pokedex pokedex;
   private static HashMap<String, Pokemon> pokemonLookup = new HashMap<>();
+  private static HashMap<Long, Pokemon> pokemonIdLookup = new HashMap<>();
   private static HashMap<String, PokeType> pokeTypeLookup = new HashMap<>();
 
   private final PokemonService pokemonService;
@@ -60,7 +61,7 @@ public final class PokemonDataImpl implements PokemonData {
     // api
     pokemonService.getPokemon(uri, new retrofit.Callback<Pokemon>() {
       @Override public void success(Pokemon pokemon, Response response) {
-        pokemonLookup.put(uri, pokemon);
+        cachePokemon(pokemon);
         callback.onSuccess(pokemon);
       }
 
@@ -68,6 +69,31 @@ public final class PokemonDataImpl implements PokemonData {
         callback.onFail(error != null ? error.getMessage() : GENERIC_ERROR);
       }
     });
+  }
+
+  @Override public void getPokemon(long id, final Callback<Pokemon> callback) {
+    // cache
+    if (pokemonIdLookup.containsKey(id)) {
+      callback.onSuccess(pokemonIdLookup.get(id));
+      return;
+    }
+
+    // api
+    pokemonService.getPokemon(id, new retrofit.Callback<Pokemon>() {
+      @Override public void success(Pokemon pokemon, Response response) {
+        cachePokemon(pokemon);
+        callback.onSuccess(pokemon);
+      }
+
+      @Override public void failure(RetrofitError error) {
+        callback.onFail(error != null ? error.getMessage() : GENERIC_ERROR);
+      }
+    });
+  }
+
+  private void cachePokemon(Pokemon pokemon) {
+    pokemonLookup.put(pokemon.resource_uri, pokemon);
+    pokemonIdLookup.put(pokemon.national_id, pokemon);
   }
 
   @Override public void getPokeType(final String uri, final Callback<PokeType> callback) {

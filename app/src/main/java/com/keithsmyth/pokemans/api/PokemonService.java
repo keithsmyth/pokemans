@@ -17,6 +17,8 @@ public interface PokemonService {
   @GET("/{uri}") void getPokemon(@Path(value = "uri", encode = false) String uri,
                                  Callback<Pokemon> callback);
 
+  @GET("/api/v1/pokemon/{id}") void getPokemon(@Path(value = "id") Long id, Callback<Pokemon> callback);
+
   @GET("/{uri}") void getPokeType(@Path(value = "uri", encode = false) String uri,
                                   Callback<PokeType> callback);
 }

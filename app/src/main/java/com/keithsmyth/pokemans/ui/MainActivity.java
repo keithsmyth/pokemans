@@ -11,7 +11,7 @@ import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.model.Pokedex;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements PartyFragment.PartyListener {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -29,5 +29,9 @@ public class MainActivity extends Activity {
       transaction.addToBackStack(fragment.getClass().getSimpleName());
     }
     transaction.commit();
+  }
+
+  @Override public void onPokemonPicked(long pokemonId) {
+    loadFragment(PokemonFragment.instantiate(pokemonId), true);
   }
 }

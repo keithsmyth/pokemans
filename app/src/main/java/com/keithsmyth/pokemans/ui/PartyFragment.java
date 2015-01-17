@@ -29,6 +29,7 @@ public class PartyFragment extends Fragment {
   public static final int PICK_REQUEST_CODE = 1;
   private View emptyView;
   private RecyclerView partyListView;
+  private PartyListener partyListener;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -85,6 +86,13 @@ public class PartyFragment extends Fragment {
     }
   }
 
+  @Override public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    if (activity instanceof PartyListener) {
+      partyListener = (PartyListener) activity;
+    }
+  }
+
   @Override public void onStart() {
     super.onStart();
     refreshParty();
@@ -103,8 +111,16 @@ public class PartyFragment extends Fragment {
   }
 
   private void setupParty(Party party) {
-    partyListView.setAdapter(new PartyAdapter(party));
+    partyListView.setAdapter(new PartyAdapter(party, new PartyAdapter.PartyClickListener() {
+      @Override public void onClick(Party.Member member) {
+        partyListener.onPokemonPicked(member.id);
+      }
+    }));
     emptyView.setVisibility(party.memberList.isEmpty() ? View.VISIBLE : View.GONE);
+  }
+
+  public static interface PartyListener {
+    public void onPokemonPicked(long pokemonId);
   }
 
 }

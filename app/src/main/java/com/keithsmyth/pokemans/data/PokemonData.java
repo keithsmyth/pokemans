@@ -13,6 +13,8 @@ public interface PokemonData {
 
   public void getPokemon(String uri, Callback<Pokemon> callback);
 
+  public void getPokemon(long id, Callback<Pokemon> callback);
+
   public void getPokeType(String uri, Callback<PokeType> callback);
 
   public void getParty(Callback<Party> callback);

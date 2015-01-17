@@ -10,27 +10,34 @@ import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.model.Party;
 
 /**
-* @author keithsmyth
-*/
+ * @author keithsmyth
+ */
 public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.MemberViewHolder> {
 
   private final Party party;
+  private final PartyClickListener listener;
 
-  public PartyAdapter(Party party) {
+  public PartyAdapter(Party party, PartyClickListener listener) {
     this.party = party;
+    this.listener = listener;
   }
 
   @Override public MemberViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pokedex_pokemon_row, parent, false);
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pokedex_pokemon_row,
+        parent, false);
     return new MemberViewHolder(view);
   }
 
   @Override public void onBindViewHolder(MemberViewHolder holder, int position) {
-    holder.bind(party.memberList.get(position));
+    holder.bind(party.memberList.get(position), listener);
   }
 
   @Override public int getItemCount() {
     return party.memberList.size();
+  }
+
+  public static interface PartyClickListener {
+    public void onClick(Party.Member member);
   }
 
   public static class MemberViewHolder extends RecyclerView.ViewHolder {
@@ -42,8 +49,13 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.MemberViewHo
       textView = (TextView) itemView;
     }
 
-    public void bind(Party.Member pokemon) {
+    public void bind(final Party.Member pokemon, final PartyClickListener listener) {
       textView.setText(pokemon.name);
+      textView.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View v) {
+          listener.onClick(pokemon);
+        }
+      });
     }
   }
 }
