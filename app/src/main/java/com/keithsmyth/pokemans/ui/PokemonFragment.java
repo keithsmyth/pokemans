@@ -27,10 +27,12 @@ public class PokemonFragment extends Fragment {
 
   private static final String EXTRA_URI = "extra-uri";
 
-  public static Bundle getArguments(String uri) {
+  public static PokemonFragment instantiate(String uri) {
     Bundle bundle = new Bundle();
     bundle.putString(EXTRA_URI, uri);
-    return bundle;
+    PokemonFragment fragment = new PokemonFragment();
+    fragment.setArguments(bundle);
+    return fragment;
   }
 
   private TextView nameText;

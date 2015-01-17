@@ -11,7 +11,7 @@ import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.model.Pokedex;
 
 
-public class MainActivity extends Activity implements PickFragment.PickListener {
+public class MainActivity extends Activity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +29,5 @@ public class MainActivity extends Activity implements PickFragment.PickListener 
       transaction.addToBackStack(fragment.getClass().getSimpleName());
     }
     transaction.commit();
-  }
-
-  @Override public void onPokemonPicked(Pokedex.Pokemon pokemon) {
-    Fragment fragment = new PokemonFragment();
-    fragment.setArguments(PokemonFragment.getArguments(pokemon.resource_uri));
-    loadFragment(fragment, true);
   }
 }

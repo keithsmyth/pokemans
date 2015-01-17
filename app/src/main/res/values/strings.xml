@@ -3,6 +3,7 @@
 
     <string name="app_name">Pokemans</string>
     <string name="action_clear">Clear Party</string>
+    <string name="action_lookup">Lookup</string>
 
     <string name="pokemon_filter">Type to filter the list</string>
     <string name="pokemon_clear_filter">Clear filter</string>

@@ -1,6 +1,7 @@
 package com.keithsmyth.pokemans.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,7 +14,22 @@ import com.keithsmyth.pokemans.model.Pokedex;
  */
 public class PickActivity extends Activity implements PickFragment.PickListener {
 
+  public static final String LOOKUP_KEY = "LOOKUP_KEY";
   public static final String POKEMON_KEY = "POKEMON_KEY";
+
+  public static Intent forParty(Context context) {
+    return createIntent(context, false);
+  }
+
+  public static Intent forLookup(Context context) {
+    return createIntent(context, true);
+  }
+
+  private static Intent createIntent(Context context, boolean forLookup) {
+    Intent intent = new Intent(context, PickActivity.class);
+    intent.putExtra(LOOKUP_KEY, forLookup);
+    return intent;
+  }
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -26,9 +42,22 @@ public class PickActivity extends Activity implements PickFragment.PickListener 
   }
 
   @Override public void onPokemonPicked(Pokedex.Pokemon pokemon) {
+    if (isLookupMode()) {
+      // open the details fragment
+      getFragmentManager().beginTransaction()
+          .replace(R.id.container, PokemonFragment.instantiate(pokemon.resource_uri))
+          .addToBackStack(PokemonFragment.class.getName())
+          .commit();
+      return;
+    }
+    // return back to caller
     Intent intent = new Intent();
     intent.putExtra(POKEMON_KEY, Party.Member.fromPokemon(pokemon).getAsJson());
     setResult(RESULT_OK, intent);
     finish();
+  }
+
+  private boolean isLookupMode() {
+    return getIntent().getBooleanExtra(LOOKUP_KEY, false);
   }
 }

@@ -42,10 +42,15 @@ public class PartyFragment extends Fragment {
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
 
-    if (id == R.id.action_clear) {
-      App.getPokemonData().clearParty();
-      refreshParty();
-      return true;
+    switch (id) {
+      case R.id.action_lookup:
+        Intent intent = PickActivity.forLookup(getActivity());
+        startActivity(intent);
+        return true;
+      case R.id.action_clear:
+        App.getPokemonData().clearParty();
+        refreshParty();
+        return true;
     }
 
     return super.onOptionsItemSelected(item);
@@ -64,7 +69,7 @@ public class PartyFragment extends Fragment {
 
     view.findViewById(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        Intent intent = new Intent(getActivity(), PickActivity.class);
+        Intent intent = PickActivity.forParty(getActivity());
         startActivityForResult(intent, PICK_REQUEST_CODE);
       }
     });
