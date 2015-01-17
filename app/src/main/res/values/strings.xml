@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Pokemans</string>
+    <string name="app_name">Pokémans</string>
     <string name="action_clear">Clear Party</string>
     <string name="action_lookup">Lookup</string>
 
@@ -14,8 +14,8 @@
     <string name="poketype_no_effect">No effect:</string>
     <string name="poketype_resistance">Resistance:</string>
 
-    <string name="party_empty_list">Add pokémon to your party</string>
+    <string name="party_empty_list">Add Pokémon to your party</string>
 
-    <string name="pick_name">Choose your Pokeêmon</string>
+    <string name="pick_name">Choose a Pokêmon</string>
 
 </resources>
