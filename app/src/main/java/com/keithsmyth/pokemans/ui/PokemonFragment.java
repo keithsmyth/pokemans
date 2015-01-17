@@ -3,7 +3,7 @@ package com.keithsmyth.pokemans.ui;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,12 +14,9 @@ import android.widget.Toast;
 
 import com.keithsmyth.pokemans.App;
 import com.keithsmyth.pokemans.R;
-import com.keithsmyth.pokemans.adapter.EvolutionAdapter;
-import com.keithsmyth.pokemans.adapter.PokeTypeAdapter;
+import com.keithsmyth.pokemans.adapter.TypeEffectAdapter;
 import com.keithsmyth.pokemans.data.Callback;
 import com.keithsmyth.pokemans.model.Pokemon;
-
-import java.util.ArrayList;
 
 /**
  * @author keithsmyth
@@ -28,7 +25,11 @@ public class PokemonFragment extends Fragment {
 
   private static final String EXTRA_URI = "extra-uri";
   private static final String EXTRA_ID = "extra-id";
-  private Callback<Pokemon> callback;
+
+  private TextView nameText;
+  private TextView typeText;
+  private TextView evoText;
+  private RecyclerView typeRecycleView;
 
   public static PokemonFragment instantiate(String uri) {
     Bundle bundle = new Bundle();
@@ -46,24 +47,15 @@ public class PokemonFragment extends Fragment {
     return fragment;
   }
 
-  private TextView nameText;
-  private RecyclerView typesList;
-  private RecyclerView evolutionsList;
-
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                                Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_pokemon, container, false);
-
     nameText = (TextView) view.findViewById(R.id.txt_name);
-
-    typesList = (RecyclerView) view.findViewById(R.id.lst_types);
-    typesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-    typesList.setAdapter(new PokeTypeAdapter(new ArrayList<Pokemon.PokeType>()));
-
-    evolutionsList = (RecyclerView) view.findViewById(R.id.lst_evolutions);
-    evolutionsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-    evolutionsList.setAdapter(new EvolutionAdapter(new ArrayList<Pokemon.Evolution>()));
-
+    evoText = (TextView) view.findViewById(R.id.txt_evo);
+    typeText = (TextView) view.findViewById(R.id.txt_types);
+    typeRecycleView = (RecyclerView) view.findViewById(R.id.lst_types);
+    typeRecycleView.setHasFixedSize(true);
+    typeRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 3)); //todo: dimens
     return view;
   }
 
@@ -74,7 +66,7 @@ public class PokemonFragment extends Fragment {
     if (bundle == null) return;
 
     setLoading(true);
-    callback = new Callback<Pokemon>() {
+    Callback<Pokemon> callback = new Callback<Pokemon>() {
       @Override public void onSuccess(Pokemon model) {
         setLoading(false);
         populate(model);
@@ -94,7 +86,6 @@ public class PokemonFragment extends Fragment {
     } else {
       App.getPokemonData().getPokemon(uri, callback);
     }
-
   }
 
   private void setLoading(boolean loading) {
@@ -105,8 +96,30 @@ public class PokemonFragment extends Fragment {
   private void populate(Pokemon pokemon) {
     if (getView() == null) return;
     nameText.setText(pokemon.name);
-    typesList.setAdapter(new PokeTypeAdapter(pokemon.types));
-    evolutionsList.setAdapter(new EvolutionAdapter(pokemon.evolutions));
+    loadEvolutions(pokemon);
+    loadTypes(pokemon);
+  }
+
+  private void loadEvolutions(Pokemon pokemon) {
+    if (pokemon.evolutions.isEmpty()) return;
+    evoText.setText(pokemon.evolutions.get(0).toString());
+  }
+
+  private void loadTypes(Pokemon pokemon) {
+    // list names
+    StringBuilder types = new StringBuilder();
+    for (Pokemon.PokeType pokeType : pokemon.types) {
+      if (types.length() > 0) types.append(", ");
+      types.append(pokeType.name);
+    }
+    typeText.setText(types.toString());
+    // load type attackEffect
+    final TypeEffectAdapter adapter = new TypeEffectAdapter(pokemon.types);
+    adapter.init(new TypeEffectAdapter.TypeEffectInitListener() {
+      @Override public void onReady() {
+        typeRecycleView.setAdapter(adapter);
+      }
+    });
   }
 
 }

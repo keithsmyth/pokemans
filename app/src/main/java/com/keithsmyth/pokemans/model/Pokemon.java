@@ -28,5 +28,12 @@ public class Pokemon {
     public String method;
     public String resource_uri;
     public String to;
+
+    @Override public String toString() {
+      return String.format("%1$s %2$s %3$s",
+          to,
+          method.replace("_", " "),
+          level != 0 ? String.valueOf(level) : "");
+    }
   }
 }
