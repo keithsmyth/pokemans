@@ -25,52 +25,55 @@ public class TypeEffectAdapter extends RecyclerView.Adapter<TypeEffectAdapter
     .TypeEffectViewHolder> {
 
   private final List<TypeEffect> typeEffectList;
-  private final HashMap<String, TypeEffect> typeEffectHashMap;
   private final List<Pokemon.PokeType> pokeTypeList;
   private int counter;
 
   public TypeEffectAdapter(List<Pokemon.PokeType> pokeTypeList) {
     this.pokeTypeList = pokeTypeList;
     typeEffectList = new ArrayList<>();
-    typeEffectHashMap = new HashMap<>();
     initTypeEffectList();
   }
 
   private void initTypeEffectList() {
     typeEffectList.clear();
-    typeEffectList.add(new TypeEffect("Normal"));
-    typeEffectList.add(new TypeEffect("Fighting"));
-    typeEffectList.add(new TypeEffect("Flying"));
-    typeEffectList.add(new TypeEffect("Poison"));
-    typeEffectList.add(new TypeEffect("Ground"));
-    typeEffectList.add(new TypeEffect("Rock"));
-    typeEffectList.add(new TypeEffect("Bug"));
-    typeEffectList.add(new TypeEffect("Ghost"));
-    typeEffectList.add(new TypeEffect("Steel"));
-    typeEffectList.add(new TypeEffect("Fire"));
-    typeEffectList.add(new TypeEffect("Water"));
-    typeEffectList.add(new TypeEffect("Grass"));
-    typeEffectList.add(new TypeEffect("Electric"));
-    typeEffectList.add(new TypeEffect("Psychic"));
-    typeEffectList.add(new TypeEffect("Ice"));
-    typeEffectList.add(new TypeEffect("Dragon"));
-    typeEffectList.add(new TypeEffect("Dark"));
-    typeEffectList.add(new TypeEffect("Fairy"));
-
-    typeEffectHashMap.clear();
-    for (TypeEffect typeEffect : typeEffectList) {
-      typeEffectHashMap.put(typeEffect.name.toLowerCase(), typeEffect);
-    }
+    typeEffectList.add(new TypeEffect("Normal", "#A8A878"));
+    typeEffectList.add(new TypeEffect("Fighting", "#C03028"));
+    typeEffectList.add(new TypeEffect("Flying", "#A890F0"));
+    typeEffectList.add(new TypeEffect("Poison", "#A040A0"));
+    typeEffectList.add(new TypeEffect("Ground", "#E0C068"));
+    typeEffectList.add(new TypeEffect("Rock", "#B8A038"));
+    typeEffectList.add(new TypeEffect("Bug", "#A8B820"));
+    typeEffectList.add(new TypeEffect("Ghost", "#705898"));
+    typeEffectList.add(new TypeEffect("Steel", "#B8B8D0"));
+    typeEffectList.add(new TypeEffect("Fire", "#F08030"));
+    typeEffectList.add(new TypeEffect("Water", "#6890F0"));
+    typeEffectList.add(new TypeEffect("Grass", "#78C850"));
+    typeEffectList.add(new TypeEffect("Electric", "#F8D030"));
+    typeEffectList.add(new TypeEffect("Psychic", "#F85888"));
+    typeEffectList.add(new TypeEffect("Ice", "#98D8D8"));
+    typeEffectList.add(new TypeEffect("Dragon", "#7038F8"));
+    typeEffectList.add(new TypeEffect("Dark", "#705848"));
+    typeEffectList.add(new TypeEffect("Fairy", "#EE99AC"));
   }
 
   public void init(final TypeEffectInitListener listener) {
     if (counter != 0) throw new RuntimeException("Type Effectiveness load error");
 
+    if (pokeTypeList.size() == 0) {
+      listener.onReady();
+      return;
+    }
+
+    final HashMap<String, TypeEffect> typeEffectHashMap = new HashMap<>(typeEffectList.size());
+    for (TypeEffect typeEffect : typeEffectList) {
+      typeEffectHashMap.put(typeEffect.name.toLowerCase(), typeEffect);
+    }
+
     counter = pokeTypeList.size();
     for (Pokemon.PokeType pokeType : pokeTypeList) {
       App.getPokemonData().getPokeType(pokeType.resource_uri, new Callback<PokeType>() {
         @Override public void onSuccess(PokeType model) {
-          updateTypeEffectiveness(model);
+          updateTypeEffectiveness(model, typeEffectHashMap);
           if (--counter == 0) completeInit(listener);
         }
 
@@ -80,10 +83,10 @@ public class TypeEffectAdapter extends RecyclerView.Adapter<TypeEffectAdapter
         }
       });
     }
-
   }
 
-  private void updateTypeEffectiveness(PokeType pokeType) {
+  private void updateTypeEffectiveness(PokeType pokeType, HashMap<String,
+      TypeEffect> typeEffectHashMap) {
     for (Lookup item : pokeType.super_effective) {
       typeEffectHashMap.get(item.name).attackEffect *= 2;
     }
@@ -144,6 +147,7 @@ public class TypeEffectAdapter extends RecyclerView.Adapter<TypeEffectAdapter
           typeEffect.name,
           typeEffect.attackEffect,
           typeEffect.defenceEffect));
+      textView.setBackgroundColor(typeEffect.colour);
     }
   }
 }

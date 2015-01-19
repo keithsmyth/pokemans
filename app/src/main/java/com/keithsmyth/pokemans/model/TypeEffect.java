@@ -8,12 +8,13 @@ import android.graphics.Color;
 public class TypeEffect {
 
   public String name;
-  public Color colorResId;
+  public int colour;
   public double attackEffect;
   public double defenceEffect;
 
-  public TypeEffect(String name) {
+  public TypeEffect(String name, String colourHex) {
     this.name = name;
+    this.colour = Color.parseColor(colourHex);
     attackEffect = 1;
     defenceEffect = 1;
   }

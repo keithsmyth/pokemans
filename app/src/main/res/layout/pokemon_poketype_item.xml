@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
           android:layout_width="@dimen/pokemon_type_width"
-          android:layout_height="wrap_content"/>
+          android:layout_height="wrap_content"
+          android:padding="@dimen/pokemon_type_padding"
+          android:textColor="@android:color/white"/>
