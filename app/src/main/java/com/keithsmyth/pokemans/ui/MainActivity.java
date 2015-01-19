@@ -2,24 +2,28 @@ package com.keithsmyth.pokemans.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.keithsmyth.pokemans.R;
-import com.keithsmyth.pokemans.model.Pokedex;
 
 
-public class MainActivity extends Activity implements PartyFragment.PartyListener {
+public class MainActivity extends Activity implements FragmentManager.OnBackStackChangedListener,
+    PartyFragment.PartyListener {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     if (savedInstanceState == null) {
+      getFragmentManager().addOnBackStackChangedListener(this);
       loadFragment(new PartyFragment(), false);
     }
+  }
+
+  @Override public void onPokemonPicked(long pokemonId) {
+    loadFragment(PokemonFragment.instantiate(pokemonId), true);
   }
 
   private void loadFragment(Fragment fragment, boolean addToBackStack) {
@@ -31,7 +35,13 @@ public class MainActivity extends Activity implements PartyFragment.PartyListene
     transaction.commit();
   }
 
-  @Override public void onPokemonPicked(long pokemonId) {
-    loadFragment(PokemonFragment.instantiate(pokemonId), true);
+  @Override public void onBackStackChanged() {
+    if (getActionBar() == null) return;
+    getActionBar().setDisplayHomeAsUpEnabled(getFragmentManager().getBackStackEntryCount() > 0);
+  }
+
+  @Override public boolean onNavigateUp() {
+    getFragmentManager().popBackStack();
+    return true;
   }
 }
