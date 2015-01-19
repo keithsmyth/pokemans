@@ -4,4 +4,39 @@
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
     </style>
 
+    <!-- Text styles from http://www.google.com/design/spec/style/typography.html#typography-standard-styles-->
+    <style name="text_headline">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#DE000000</item>
+    </style>
+
+    <style name="text_title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#DE000000</item>
+    </style>
+
+    <style name="text_subhead">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#DE000000</item>
+    </style>
+
+    <style name="text_body_2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">#DE000000</item>
+    </style>
+
+    <style name="text_body_1">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#DE000000</item>
+    </style>
+
+    <style name="text_button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:capitalize">characters</item>
+        <item name="android:textColor">#DE000000</item>
+    </style>
+
 </resources>

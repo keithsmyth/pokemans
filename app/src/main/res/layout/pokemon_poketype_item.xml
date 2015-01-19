@@ -3,4 +3,5 @@
           android:layout_width="@dimen/pokemon_type_width"
           android:layout_height="wrap_content"
           android:padding="@dimen/pokemon_type_padding"
-          android:textColor="@android:color/white"/>
+          android:textColor="@android:color/white"
+          style="@style/text_body_1"/>
