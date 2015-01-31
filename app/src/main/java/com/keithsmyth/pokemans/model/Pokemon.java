@@ -16,7 +16,7 @@ public class Pokemon {
 
   public List<Evolution> evolutions;
 
-  //todo: add moves here
+  public List<Move> moves;
 
   public static class PokeType {
     public String name;
@@ -35,5 +35,12 @@ public class Pokemon {
           method.replace("_", " "),
           level != 0 ? String.valueOf(level) : "");
     }
+  }
+
+  public static class Move {
+    public String learn_type;
+    public String name;
+    public Integer level;
+    public String resource_uri;
   }
 }

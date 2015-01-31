@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.keithsmyth.pokemans.App;
 import com.keithsmyth.pokemans.R;
+import com.keithsmyth.pokemans.adapter.MovesAdapter;
 import com.keithsmyth.pokemans.adapter.TypeEffectAdapter;
 import com.keithsmyth.pokemans.data.Callback;
 import com.keithsmyth.pokemans.model.Pokemon;
@@ -29,6 +31,7 @@ public class PokemonFragment extends Fragment {
   private TextView nameText;
   private TextView typeText;
   private TextView evoText;
+  private RecyclerView movesRecycleView;
   private RecyclerView typeRecycleView;
 
   public static PokemonFragment instantiate(String uri) {
@@ -53,8 +56,9 @@ public class PokemonFragment extends Fragment {
     nameText = (TextView) view.findViewById(R.id.txt_name);
     evoText = (TextView) view.findViewById(R.id.txt_evo);
     typeText = (TextView) view.findViewById(R.id.txt_types);
+    movesRecycleView = (RecyclerView) view.findViewById(R.id.lst_moves);
+    movesRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
     typeRecycleView = (RecyclerView) view.findViewById(R.id.lst_types);
-    typeRecycleView.setHasFixedSize(true);
     typeRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 3)); //todo: dimens
     return view;
   }
@@ -96,6 +100,7 @@ public class PokemonFragment extends Fragment {
   private void populate(Pokemon pokemon) {
     if (getView() == null) return;
     nameText.setText(pokemon.name);
+    loadMoves(pokemon);
     loadEvolutions(pokemon);
     loadTypes(pokemon);
   }
@@ -103,6 +108,10 @@ public class PokemonFragment extends Fragment {
   private void loadEvolutions(Pokemon pokemon) {
     if (pokemon.evolutions.isEmpty()) return;
     evoText.setText(pokemon.evolutions.get(0).toString());
+  }
+
+  private void loadMoves(Pokemon pokemon) {
+    movesRecycleView.setAdapter(new MovesAdapter(pokemon.moves));
   }
 
   private void loadTypes(Pokemon pokemon) {
