@@ -1,9 +1,9 @@
 package com.keithsmyth.pokemans.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.model.Party;
@@ -12,7 +12,7 @@ import com.keithsmyth.pokemans.model.Pokedex;
 /**
  * @author keithsmyth
  */
-public class PickActivity extends Activity implements PickFragment.PickListener {
+public class PickActivity extends FragmentActivity implements PickFragment.PickListener {
 
   public static final String LOOKUP_KEY = "LOOKUP_KEY";
   public static final String POKEMON_KEY = "POKEMON_KEY";
@@ -35,7 +35,7 @@ public class PickActivity extends Activity implements PickFragment.PickListener 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     if (savedInstanceState == null) {
-      getFragmentManager().beginTransaction()
+      getSupportFragmentManager().beginTransaction()
           .add(R.id.container, new PickFragment())
           .commit();
     }
@@ -44,7 +44,7 @@ public class PickActivity extends Activity implements PickFragment.PickListener 
   @Override public void onPokemonPicked(Pokedex.Pokemon pokemon) {
     if (isLookupMode()) {
       // open the details fragment
-      getFragmentManager().beginTransaction()
+      getSupportFragmentManager().beginTransaction()
           .replace(R.id.container, PokemonFragment.instantiate(pokemon.resource_uri))
           .addToBackStack(PokemonFragment.class.getName())
           .commit();
