@@ -21,26 +21,19 @@
         android:gravity="center_vertical"
         style="@style/text_subhead"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/lst_moves"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_below="@id/txt_evo"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/txt_evo">
 
-    <TextView
-        android:id="@+id/txt_types"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_below="@id/lst_moves"
-        android:gravity="center_vertical"
-        style="@style/text_subhead"/>
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/pager_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top" />
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/lst_types"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_below="@id/txt_types"/>
+    </android.support.v4.view.ViewPager>
 
     <ProgressBar
         android:id="@+id/progress"

@@ -2,9 +2,6 @@ package com.keithsmyth.pokemans.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -16,8 +13,7 @@ import android.widget.Toast;
 
 import com.keithsmyth.pokemans.App;
 import com.keithsmyth.pokemans.R;
-import com.keithsmyth.pokemans.adapter.MovesAdapter;
-import com.keithsmyth.pokemans.adapter.TypeEffectAdapter;
+import com.keithsmyth.pokemans.adapter.PokemonPagerAdapter;
 import com.keithsmyth.pokemans.data.Callback;
 import com.keithsmyth.pokemans.model.Pokemon;
 
@@ -30,10 +26,8 @@ public class PokemonFragment extends Fragment {
   private static final String EXTRA_ID = "extra-id";
 
   private TextView nameText;
-  private TextView typeText;
   private TextView evoText;
-  private RecyclerView movesRecycleView;
-  private RecyclerView typeRecycleView;
+  private PokemonPagerAdapter pagerAdapter;
 
   public static PokemonFragment instantiate(String uri) {
     Bundle bundle = new Bundle();
@@ -56,11 +50,8 @@ public class PokemonFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_pokemon, container, false);
     nameText = (TextView) view.findViewById(R.id.txt_name);
     evoText = (TextView) view.findViewById(R.id.txt_evo);
-    typeText = (TextView) view.findViewById(R.id.txt_types);
-    movesRecycleView = (RecyclerView) view.findViewById(R.id.lst_moves);
-    movesRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    typeRecycleView = (RecyclerView) view.findViewById(R.id.lst_types);
-    typeRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 3)); //todo: dimens
+    pagerAdapter = new PokemonPagerAdapter(getChildFragmentManager());
+    ((ViewPager) view.findViewById(R.id.pager)).setAdapter(pagerAdapter);
     return view;
   }
 
@@ -95,41 +86,20 @@ public class PokemonFragment extends Fragment {
 
   private void setLoading(boolean loading) {
     if (getView() == null) return;
+    getView().findViewById(R.id.pager).setVisibility(loading ? View.INVISIBLE : View.VISIBLE);
     getView().findViewById(R.id.progress).setVisibility(loading ? View.VISIBLE : View.GONE);
   }
 
   private void populate(Pokemon pokemon) {
     if (getView() == null) return;
     nameText.setText(pokemon.name);
-    loadMoves(pokemon);
     loadEvolutions(pokemon);
-    loadTypes(pokemon);
+    pagerAdapter.populate(pokemon);
   }
 
   private void loadEvolutions(Pokemon pokemon) {
     if (pokemon.evolutions.isEmpty()) return;
     evoText.setText(pokemon.evolutions.get(0).toString());
-  }
-
-  private void loadMoves(Pokemon pokemon) {
-    movesRecycleView.setAdapter(new MovesAdapter(pokemon.moves));
-  }
-
-  private void loadTypes(Pokemon pokemon) {
-    // list names
-    StringBuilder types = new StringBuilder();
-    for (Pokemon.PokeType pokeType : pokemon.types) {
-      if (types.length() > 0) types.append(", ");
-      types.append(pokeType.name);
-    }
-    typeText.setText(types.toString());
-    // load type attackEffect
-    final TypeEffectAdapter adapter = new TypeEffectAdapter(pokemon.types);
-    adapter.init(new TypeEffectAdapter.TypeEffectInitListener() {
-      @Override public void onReady() {
-        typeRecycleView.setAdapter(adapter);
-      }
-    });
   }
 
 }

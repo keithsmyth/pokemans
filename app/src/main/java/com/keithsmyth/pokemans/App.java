@@ -29,6 +29,10 @@ public class App extends Application {
     return pokemonData;
   }
 
+  public static String getResourceString(int stringId) {
+    return instance.getString(stringId);
+  }
+
   @Override public void onCreate() {
     super.onCreate();
     instance = this;

@@ -7,12 +7,8 @@
 
     <string name="pokemon_filter">Type to filter the list</string>
     <string name="pokemon_clear_filter">Clear filter</string>
-
-    <string name="poketype_super_effective">Super Effective:</string>
-    <string name="poketype_weakness">Weakness:</string>
-    <string name="poketype_ineffective">Ineffective:</string>
-    <string name="poketype_no_effect">No effect:</string>
-    <string name="poketype_resistance">Resistance:</string>
+    <string name="pokemon_types_title">Type Effectiveness</string>
+    <string name="pokemon_moves_title">Moves</string>
 
     <string name="party_empty_list">Add Pokémon to your party</string>
 
