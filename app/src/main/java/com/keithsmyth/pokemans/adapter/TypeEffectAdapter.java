@@ -97,10 +97,10 @@ public class TypeEffectAdapter extends RecyclerView.Adapter<TypeEffectAdapter
       typeEffectHashMap.get(item.name).attackEffect = 0;
     }
     for (Lookup item : pokeType.weakness) {
-      typeEffectHashMap.get(item.name).defenceEffect *= -2;
+      typeEffectHashMap.get(item.name).defenceEffect *= 2;
     }
     for (Lookup item : pokeType.resistance) {
-      typeEffectHashMap.get(item.name).defenceEffect *= -0.5;
+      typeEffectHashMap.get(item.name).defenceEffect *= 0.5;
     }
   }
 
