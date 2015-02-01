@@ -15,20 +15,19 @@ import com.keithsmyth.pokemans.ui.TypesListFragment;
  */
 public class PokemonPagerAdapter extends FragmentPagerAdapter {
 
-  private final TypesListFragment typesListFragment;
-  private final MovesListFragment movesListFragment;
+  private static final int NUM_VIEWS = 2;
+  private final Pokemon pokemon;
 
-  public PokemonPagerAdapter(FragmentManager fm) {
+  public PokemonPagerAdapter(FragmentManager fm, Pokemon pokemon) {
     super(fm);
-    typesListFragment = new TypesListFragment();
-    movesListFragment = new MovesListFragment();
+    this.pokemon = pokemon;
   }
 
   @Override public Fragment getItem(int position) {
     if (position == 0) {
-      return typesListFragment;
+      return TypesListFragment.instantiate(pokemon);
     }
-    return movesListFragment;
+    return MovesListFragment.instantiate(pokemon);
   }
 
   @Override public CharSequence getPageTitle(int position) {
@@ -39,11 +38,6 @@ public class PokemonPagerAdapter extends FragmentPagerAdapter {
   }
 
   @Override public int getCount() {
-    return 2;
-  }
-
-  public void populate(Pokemon pokemon) {
-    typesListFragment.loadTypes(pokemon.types);
-    movesListFragment.loadMoves(pokemon.moves);
+    return NUM_VIEWS;
   }
 }

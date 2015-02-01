@@ -27,7 +27,7 @@ public class PokemonFragment extends Fragment {
 
   private TextView nameText;
   private TextView evoText;
-  private PokemonPagerAdapter pagerAdapter;
+  private ViewPager pager;
 
   public static PokemonFragment instantiate(String uri) {
     Bundle bundle = new Bundle();
@@ -50,13 +50,12 @@ public class PokemonFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_pokemon, container, false);
     nameText = (TextView) view.findViewById(R.id.txt_name);
     evoText = (TextView) view.findViewById(R.id.txt_evo);
-    pagerAdapter = new PokemonPagerAdapter(getChildFragmentManager());
-    ((ViewPager) view.findViewById(R.id.pager)).setAdapter(pagerAdapter);
+    pager = (ViewPager) view.findViewById(R.id.pager);
     return view;
   }
 
-  @Override public void onStart() {
-    super.onStart();
+  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
 
     Bundle bundle = getArguments();
     if (bundle == null) return;
@@ -94,7 +93,7 @@ public class PokemonFragment extends Fragment {
     if (getView() == null) return;
     nameText.setText(pokemon.name);
     loadEvolutions(pokemon);
-    pagerAdapter.populate(pokemon);
+    pager.setAdapter(new PokemonPagerAdapter(getChildFragmentManager(), pokemon));
   }
 
   private void loadEvolutions(Pokemon pokemon) {

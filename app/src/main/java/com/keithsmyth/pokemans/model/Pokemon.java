@@ -1,11 +1,18 @@
 package com.keithsmyth.pokemans.model;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 /**
  * @author keithsmyth
  */
 public class Pokemon {
+
+  public static Pokemon fromJson(String json) {
+    return json == null ? new Pokemon() : new Gson().fromJson(json, Pokemon.class);
+  }
+
   public String name;
 
   public long national_id;
@@ -17,6 +24,10 @@ public class Pokemon {
   public List<Evolution> evolutions;
 
   public List<Move> moves;
+
+  public String getAsJson() {
+    return new Gson().toJson(this);
+  }
 
   public static class PokeType {
     public String name;
