@@ -7,10 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.keithsmyth.pokemans.R;
+import com.keithsmyth.pokemans.model.Pokemon;
 
 
 public class MainActivity extends FragmentActivity implements
-    FragmentManager.OnBackStackChangedListener, PartyFragment.PartyListener {
+    FragmentManager.OnBackStackChangedListener, PartyFragment.PartyListener, MovesListFragment.MoveListFragmentListener {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -43,5 +44,9 @@ public class MainActivity extends FragmentActivity implements
   @Override public boolean onNavigateUp() {
     getSupportFragmentManager().popBackStack();
     return true;
+  }
+
+  @Override public void onMoveClicked(Pokemon.Move move) {
+    loadFragment(MoveFragment.create(move.resource_uri), true);
   }
 }

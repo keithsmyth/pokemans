@@ -1,5 +1,6 @@
 package com.keithsmyth.pokemans.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ public class MovesListFragment extends Fragment {
   }
 
   private RecyclerView movesRecycleView;
+  private MoveListFragmentListener listener;
 
   @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                      @Nullable Bundle savedInstanceState) {
@@ -44,6 +46,21 @@ public class MovesListFragment extends Fragment {
 
   private void loadMoves() {
     Pokemon pokemon = Pokemon.fromJson(getArguments().getString(KEY_POKEMON_MODEL));
-    movesRecycleView.setAdapter(new MovesAdapter(pokemon.moves));
+    movesRecycleView.setAdapter(new MovesAdapter(pokemon.moves, new MovesAdapter.OnMoveClickListener() {
+      @Override public void onClick(Pokemon.Move move) {
+        listener.onMoveClicked(move);
+      }
+    }));
+  }
+
+  @Override public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    if (activity instanceof MoveListFragmentListener) {
+      listener = (MoveListFragmentListener) activity;
+    }
+  }
+
+  public static interface MoveListFragmentListener {
+    void onMoveClicked(Pokemon.Move move);
   }
 }

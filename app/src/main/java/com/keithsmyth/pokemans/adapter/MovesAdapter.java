@@ -19,9 +19,11 @@ import java.util.List;
 public class MovesAdapter extends RecyclerView.Adapter<MovesAdapter.MoveViewHolder> {
 
   private final List<Pokemon.Move> moveList;
+  private final OnMoveClickListener listener;
 
-  public MovesAdapter(List<Pokemon.Move> moveList) {
+  public MovesAdapter(List<Pokemon.Move> moveList, OnMoveClickListener listener) {
     this.moveList = moveList;
+    this.listener = listener;
     sortMoveList();
   }
 
@@ -44,11 +46,15 @@ public class MovesAdapter extends RecyclerView.Adapter<MovesAdapter.MoveViewHold
   }
 
   @Override public void onBindViewHolder(MoveViewHolder holder, int position) {
-    holder.bind(moveList.get(position));
+    holder.bind(moveList.get(position), listener);
   }
 
   @Override public int getItemCount() {
     return moveList.size();
+  }
+
+  public static interface OnMoveClickListener {
+    void onClick(Pokemon.Move move);
   }
 
   public static class MoveViewHolder extends RecyclerView.ViewHolder {
@@ -62,10 +68,15 @@ public class MovesAdapter extends RecyclerView.Adapter<MovesAdapter.MoveViewHold
       metaTextView = (TextView) itemView.findViewById(R.id.txt_meta);
     }
 
-    public void bind(Pokemon.Move move) {
+    public void bind(final Pokemon.Move move, final OnMoveClickListener listener) {
       nameTextView.setText(move.name);
       metaTextView.setText(String.format("%1$s %2$s", move.learn_type,
           move.level == null ? "" : move.level));
+      itemView.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View v) {
+          listener.onClick(move);
+        }
+      });
     }
   }
 }

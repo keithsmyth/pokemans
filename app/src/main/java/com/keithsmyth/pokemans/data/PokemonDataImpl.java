@@ -1,6 +1,7 @@
 package com.keithsmyth.pokemans.data;
 
 import com.keithsmyth.pokemans.api.PokemonService;
+import com.keithsmyth.pokemans.model.Move;
 import com.keithsmyth.pokemans.model.Party;
 import com.keithsmyth.pokemans.model.PokeType;
 import com.keithsmyth.pokemans.model.Pokedex;
@@ -130,5 +131,20 @@ public final class PokemonDataImpl implements PokemonData {
 
   @Override public void clearParty() {
     preferenceWrapper.setPartyList(null);
+  }
+
+  @Override public void getMove(String uri, final Callback<Move> callback) {
+    // cache
+
+    // api
+    pokemonService.getMove(uri, new retrofit.Callback<Move>() {
+      @Override public void success(Move move, Response response) {
+        callback.onSuccess(move);
+      }
+
+      @Override public void failure(RetrofitError error) {
+        callback.onFail(error != null ? error.getMessage() : GENERIC_ERROR);
+      }
+    });
   }
 }
