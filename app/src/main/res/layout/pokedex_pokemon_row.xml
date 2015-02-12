@@ -2,7 +2,7 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
           android:layout_width="match_parent"
           android:layout_height="@dimen/list_row"
-          android:background="@drawable/list_text_background"
+          android:background="?android:selectableItemBackground"
           android:gravity="center_vertical"
           android:paddingStart="@dimen/activity_horizontal_margin"
           android:paddingEnd="@dimen/activity_horizontal_margin"
