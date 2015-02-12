@@ -1,42 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin">
 
     <TextView
         android:id="@+id/txt_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        style="@style/text_headline"/>
 
     <TextView
         android:id="@+id/txt_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txt_name"/>
+        android:layout_below="@id/txt_name"
+        style="@style/text_body_1"/>
+
+    <TextView
+        android:id="@+id/txt_category_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_description"
+        android:text="@string/move_category"
+        style="@style/text_body_2"/>
 
     <TextView
         android:id="@+id/txt_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txt_description"/>
+        android:layout_below="@id/txt_category_title"
+        style="@style/text_body_1"/>
+
+    <TextView
+        android:id="@+id/txt_power_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_category"
+        android:text="@string/move_power"
+        style="@style/text_body_2"/>
 
     <TextView
         android:id="@+id/txt_power"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txt_category"/>
+        android:layout_below="@id/txt_power_title"
+        style="@style/text_body_1"/>
+
+    <TextView
+        android:id="@+id/txt_pp_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_power"
+        android:text="@string/move_pp"
+        style="@style/text_body_2"/>
 
     <TextView
         android:id="@+id/txt_pp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txt_power"/>
+        android:layout_below="@id/txt_pp_title"
+        style="@style/text_body_1"/>
+
+    <TextView
+        android:id="@+id/txt_accuracy_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_pp"
+        android:text="@string/move_accuracy"
+        style="@style/text_body_2"/>
 
     <TextView
         android:id="@+id/txt_accuracy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txt_pp"/>
+        android:layout_below="@id/txt_accuracy_title"
+        style="@style/text_body_1"/>
 
     <ProgressBar
         android:id="@+id/progress"

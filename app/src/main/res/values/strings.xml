@@ -14,4 +14,9 @@
 
     <string name="pick_name">Choose a Pokémon</string>
 
+    <string name="move_category">Category</string>
+    <string name="move_power">Power</string>
+    <string name="move_pp">PP</string>
+    <string name="move_accuracy">Accuracy</string>
+
 </resources>
