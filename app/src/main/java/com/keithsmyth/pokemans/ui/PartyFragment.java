@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,23 +12,25 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.keithsmyth.pokemans.App;
 import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.adapter.PartyAdapter;
-import com.keithsmyth.pokemans.data.Callback;
 import com.keithsmyth.pokemans.model.Party;
 
 /**
  * @author keithsmyth
  */
-public class PartyFragment extends Fragment {
+public class PartyFragment extends BaseDataFragment<Party> {
 
   public static final int PICK_REQUEST_CODE = 1;
   private View emptyView;
   private RecyclerView partyListView;
   private PartyListener partyListener;
+
+  @Override protected Class<Party> getModelType() {
+    return Party.class;
+  }
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -50,7 +51,7 @@ public class PartyFragment extends Fragment {
         return true;
       case R.id.action_clear:
         App.getPokemonData().clearParty();
-        refreshParty();
+        requestData();
         return true;
     }
 
@@ -82,7 +83,7 @@ public class PartyFragment extends Fragment {
     if (requestCode == PICK_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
       Party.Member member = Party.Member.fromJson(data.getStringExtra(PickActivity.POKEMON_KEY));
       App.getPokemonData().addToParty(member);
-      refreshParty();
+      requestData();
     }
   }
 
@@ -93,34 +94,20 @@ public class PartyFragment extends Fragment {
     }
   }
 
-  @Override public void onStart() {
-    super.onStart();
-    refreshParty();
+  @Override protected void requestData() {
+    App.getPokemonData().getParty(this);
   }
 
-  private void refreshParty() {
-    App.getPokemonData().getParty(new Callback<Party>() {
-      @Override public void onSuccess(Party model) {
-        setupParty(model);
-      }
-
-      @Override public void onFail(String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-      }
-    });
-  }
-
-  private void setupParty(Party party) {
-    partyListView.setAdapter(new PartyAdapter(party, new PartyAdapter.PartyClickListener() {
+  @Override protected void populate(Party model) {
+    partyListView.setAdapter(new PartyAdapter(model, new PartyAdapter.PartyClickListener() {
       @Override public void onClick(Party.Member member) {
         partyListener.onPokemonPicked(member.id);
       }
     }));
-    emptyView.setVisibility(party.memberList.isEmpty() ? View.VISIBLE : View.GONE);
+    emptyView.setVisibility(model.memberList.isEmpty() ? View.VISIBLE : View.GONE);
   }
 
   public static interface PartyListener {
     public void onPokemonPicked(long pokemonId);
   }
-
 }
