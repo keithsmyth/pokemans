@@ -3,16 +3,20 @@ package com.keithsmyth.pokemans.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
 import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.model.Party;
 import com.keithsmyth.pokemans.model.Pokedex;
+import com.keithsmyth.pokemans.model.Pokemon;
 
 /**
  * @author keithsmyth
  */
-public class PickActivity extends FragmentActivity implements PickFragment.PickListener {
+public class PickActivity extends FragmentActivity implements PickFragment.PickListener,
+    MovesListFragment.MoveListFragmentListener {
 
   public static final String LOOKUP_KEY = "LOOKUP_KEY";
   public static final String POKEMON_KEY = "POKEMON_KEY";
@@ -35,19 +39,23 @@ public class PickActivity extends FragmentActivity implements PickFragment.PickL
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     if (savedInstanceState == null) {
-      getSupportFragmentManager().beginTransaction()
-          .add(R.id.container, new PickFragment())
-          .commit();
+      loadFragment(new PickFragment(), false);
     }
+  }
+
+  private void loadFragment(Fragment fragment, boolean addToBackStack) {
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+        .replace(R.id.container, fragment);
+    if (addToBackStack) {
+      transaction.addToBackStack(fragment.getClass().getSimpleName());
+    }
+    transaction.commit();
   }
 
   @Override public void onPokemonPicked(Pokedex.Pokemon pokemon) {
     if (isLookupMode()) {
       // open the details fragment
-      getSupportFragmentManager().beginTransaction()
-          .replace(R.id.container, PokemonFragment.instantiate(pokemon.resource_uri))
-          .addToBackStack(PokemonFragment.class.getName())
-          .commit();
+      loadFragment(PokemonFragment.instantiate(pokemon.resource_uri), true);
       return;
     }
     // return back to caller
@@ -59,5 +67,9 @@ public class PickActivity extends FragmentActivity implements PickFragment.PickL
 
   private boolean isLookupMode() {
     return getIntent().getBooleanExtra(LOOKUP_KEY, false);
+  }
+
+  @Override public void onMoveClicked(Pokemon.Move move) {
+    loadFragment(MoveFragment.create(move.resource_uri), true);
   }
 }
