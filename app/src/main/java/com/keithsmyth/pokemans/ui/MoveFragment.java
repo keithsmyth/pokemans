@@ -2,11 +2,9 @@ package com.keithsmyth.pokemans.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +16,7 @@ import com.keithsmyth.pokemans.model.Move;
 /**
  * @author keithsmyth
  */
-public class MoveFragment extends Fragment {
+public class MoveFragment extends BaseDataFragment<Move> {
 
   private static final String EXTRA_API_PATH = "extra-api-path";
 
@@ -30,7 +28,6 @@ public class MoveFragment extends Fragment {
     return fragment;
   }
 
-  private ProgressBar progressBar;
   private TextView nameText;
   private TextView descriptionText;
   private TextView categoryText;
@@ -41,7 +38,6 @@ public class MoveFragment extends Fragment {
   @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                      @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_move, container, false);
-    progressBar = (ProgressBar) view.findViewById(R.id.progress);
     nameText = (TextView) view.findViewById(R.id.txt_name);
     descriptionText = (TextView) view.findViewById(R.id.txt_description);
     categoryText = (TextView) view.findViewById(R.id.txt_category);
@@ -51,25 +47,16 @@ public class MoveFragment extends Fragment {
     return view;
   }
 
-  @Override public void onStart() {
-    super.onStart();
-    setLoading(true);
-    String apiPath = getArguments().getString(EXTRA_API_PATH);
-    App.getPokemonData().getMove(apiPath, new Callback<Move>() {
-      @Override public void onSuccess(Move model) {
-        setLoading(false);
-        populate(model);
-      }
-
-      @Override public void onFail(String msg) {
-        if (getView() == null) return;
-        setLoading(false);
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-      }
-    });
+  @Override protected Class<Move> getModelType() {
+    return Move.class;
   }
 
-  private void populate(Move move) {
+  @Override protected void requestData() {
+    String apiPath = getArguments().getString(EXTRA_API_PATH);
+    App.getPokemonData().getMove(apiPath, this);
+  }
+
+  @Override protected void populate(Move move) {
     if (getView() == null) return;
     nameText.setText(move.name);
     descriptionText.setText(move.description);
@@ -77,10 +64,5 @@ public class MoveFragment extends Fragment {
     powerText.setText(String.valueOf(move.power));
     ppText.setText(String.valueOf(move.pp));
     accuracyText.setText(String.valueOf(move.accuracy));
-  }
-
-  private void setLoading(boolean loading) {
-    if (getView() == null) return;
-    progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
   }
 }

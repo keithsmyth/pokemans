@@ -20,7 +20,7 @@ import com.keithsmyth.pokemans.model.Pokemon;
 /**
  * @author keithsmyth
  */
-public class PokemonFragment extends Fragment {
+public class PokemonFragment extends BaseDataFragment<Pokemon> {
 
   private static final String EXTRA_URI = "extra-uri";
   private static final String EXTRA_ID = "extra-id";
@@ -45,6 +45,10 @@ public class PokemonFragment extends Fragment {
     return fragment;
   }
 
+  @Override protected Class<Pokemon> getModelType() {
+    return Pokemon.class;
+  }
+
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                                Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_pokemon, container, false);
@@ -54,46 +58,30 @@ public class PokemonFragment extends Fragment {
     return view;
   }
 
-  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
+  @Override protected void setLoading(boolean isLoading) {
+    super.setLoading(isLoading);
+    if (getView() == null) return;
+    pager.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+  }
 
+  @Override protected void requestData() {
     Bundle bundle = getArguments();
     if (bundle == null) return;
-
-    setLoading(true);
-    Callback<Pokemon> callback = new Callback<Pokemon>() {
-      @Override public void onSuccess(Pokemon model) {
-        setLoading(false);
-        populate(model);
-      }
-
-      @Override public void onFail(String msg) {
-        setLoading(false);
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-      }
-    };
-
     // can be passed id or uri
     String uri = bundle.getString(EXTRA_URI, null);
     if (TextUtils.isEmpty(uri)) {
       Long id = bundle.getLong(EXTRA_ID);
-      App.getPokemonData().getPokemon(id, callback);
+      App.getPokemonData().getPokemon(id, this);
     } else {
-      App.getPokemonData().getPokemon(uri, callback);
+      App.getPokemonData().getPokemon(uri, this);
     }
   }
 
-  private void setLoading(boolean loading) {
+  @Override protected void populate(Pokemon model) {
     if (getView() == null) return;
-    getView().findViewById(R.id.pager).setVisibility(loading ? View.INVISIBLE : View.VISIBLE);
-    getView().findViewById(R.id.progress).setVisibility(loading ? View.VISIBLE : View.GONE);
-  }
-
-  private void populate(Pokemon pokemon) {
-    if (getView() == null) return;
-    nameText.setText(pokemon.name);
-    loadEvolutions(pokemon);
-    pager.setAdapter(new PokemonPagerAdapter(getChildFragmentManager(), pokemon));
+    nameText.setText(model.name);
+    loadEvolutions(model);
+    pager.setAdapter(new PokemonPagerAdapter(getChildFragmentManager(), model));
   }
 
   private void loadEvolutions(Pokemon pokemon) {

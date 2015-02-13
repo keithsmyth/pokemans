@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * @author keithsmyth
  */
-public class PickFragment extends Fragment {
+public class PickFragment extends BaseDataFragment<Pokedex> {
 
   private EditText filterText;
   private RecyclerView recyclerView;
@@ -32,6 +32,10 @@ public class PickFragment extends Fragment {
   private PickListener pickListener;
 
   public PickFragment() {
+  }
+
+  @Override protected Class<Pokedex> getModelType() {
+    return Pokedex.class;
   }
 
   @Override
@@ -75,21 +79,8 @@ public class PickFragment extends Fragment {
     }
   }
 
-  @Override public void onStart() {
-    super.onStart();
-    setLoading(true);
-
-    App.getPokemonData().getPokedex(new com.keithsmyth.pokemans.data.Callback<Pokedex>() {
-      @Override public void onSuccess(Pokedex model) {
-        setLoading(false);
-        setupPokemon(model.pokemon);
-      }
-
-      @Override public void onFail(String msg) {
-        setLoading(false);
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
-      }
-    });
+  @Override protected void requestData() {
+    App.getPokemonData().getPokedex(this);
   }
 
   @Override public void onStop() {
@@ -97,15 +88,8 @@ public class PickFragment extends Fragment {
     Utils.closeKeyboard(getActivity(), filterText);
   }
 
-  private void setLoading(boolean loading) {
-    if (getView() == null) return;
-    getView().findViewById(R.id.progress).setVisibility(loading ? View.VISIBLE : View.GONE);
-    getView().findViewById(R.id.lst_pokemon).setVisibility(loading ? View.GONE : View.VISIBLE);
-  }
-
-  private void setupPokemon(final List<Pokedex.Pokemon> pokemonList) {
-    if (recyclerView == null) return;
-    adapter = new PokemonAdapter(pokemonList, new PokemonAdapter
+  @Override protected void populate(Pokedex model) {
+    adapter = new PokemonAdapter(model.pokemon, new PokemonAdapter
         .PokemonItemClickListener() {
       @Override public void onClick(Pokedex.Pokemon pokemon) {
         // pass back up to activity
