@@ -2,6 +2,7 @@ package com.keithsmyth.pokemans.data;
 
 import com.keithsmyth.pokemans.model.Move;
 import com.keithsmyth.pokemans.model.Party;
+import com.keithsmyth.pokemans.model.PartyMember;
 import com.keithsmyth.pokemans.model.PokeType;
 import com.keithsmyth.pokemans.model.Pokedex;
 import com.keithsmyth.pokemans.model.Pokemon;
@@ -20,7 +21,7 @@ public interface PokemonData {
 
   public void getParty(Callback<Party> callback);
 
-  public void addToParty(Party.Member member);
+  public void addToParty(PartyMember member);
 
   public void clearParty();
 

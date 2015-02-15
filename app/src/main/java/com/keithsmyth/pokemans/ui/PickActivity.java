@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
 import com.keithsmyth.pokemans.R;
-import com.keithsmyth.pokemans.model.Party;
+import com.keithsmyth.pokemans.model.PartyMember;
 import com.keithsmyth.pokemans.model.Pokedex;
 import com.keithsmyth.pokemans.model.Pokemon;
 
@@ -60,7 +60,7 @@ public class PickActivity extends FragmentActivity implements PickFragment.PickL
     }
     // return back to caller
     Intent intent = new Intent();
-    intent.putExtra(POKEMON_KEY, Party.Member.fromPokemon(pokemon).getAsJson());
+    intent.putExtra(POKEMON_KEY, PartyMember.fromPokemon(pokemon).getAsJson());
     setResult(RESULT_OK, intent);
     finish();
   }

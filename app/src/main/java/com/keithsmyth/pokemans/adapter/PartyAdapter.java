@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.model.Party;
+import com.keithsmyth.pokemans.model.PartyMember;
 
 /**
  * @author keithsmyth
@@ -37,7 +38,7 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.MemberViewHo
   }
 
   public static interface PartyClickListener {
-    public void onClick(Party.Member member);
+    public void onClick(PartyMember member);
   }
 
   public static class MemberViewHolder extends RecyclerView.ViewHolder {
@@ -49,7 +50,7 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.MemberViewHo
       textView = (TextView) itemView;
     }
 
-    public void bind(final Party.Member pokemon, final PartyClickListener listener) {
+    public void bind(final PartyMember pokemon, final PartyClickListener listener) {
       textView.setText(pokemon.name);
       textView.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View v) {

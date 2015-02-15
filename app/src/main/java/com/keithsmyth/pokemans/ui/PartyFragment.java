@@ -17,6 +17,7 @@ import com.keithsmyth.pokemans.App;
 import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.adapter.PartyAdapter;
 import com.keithsmyth.pokemans.model.Party;
+import com.keithsmyth.pokemans.model.PartyMember;
 
 /**
  * @author keithsmyth
@@ -81,7 +82,7 @@ public class PartyFragment extends BaseDataFragment<Party> {
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == PICK_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-      Party.Member member = Party.Member.fromJson(data.getStringExtra(PickActivity.POKEMON_KEY));
+      PartyMember member = PartyMember.fromJson(data.getStringExtra(PickActivity.POKEMON_KEY));
       App.getPokemonData().addToParty(member);
       requestData();
     }
@@ -100,7 +101,7 @@ public class PartyFragment extends BaseDataFragment<Party> {
 
   @Override protected void populate(Party model) {
     partyListView.setAdapter(new PartyAdapter(model, new PartyAdapter.PartyClickListener() {
-      @Override public void onClick(Party.Member member) {
+      @Override public void onClick(PartyMember member) {
         partyListener.onPokemonPicked(member.id);
       }
     }));

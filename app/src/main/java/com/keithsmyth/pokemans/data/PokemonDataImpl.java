@@ -3,6 +3,7 @@ package com.keithsmyth.pokemans.data;
 import com.keithsmyth.pokemans.api.PokemonService;
 import com.keithsmyth.pokemans.model.Move;
 import com.keithsmyth.pokemans.model.Party;
+import com.keithsmyth.pokemans.model.PartyMember;
 import com.keithsmyth.pokemans.model.PokeType;
 import com.keithsmyth.pokemans.model.Pokedex;
 import com.keithsmyth.pokemans.model.Pokemon;
@@ -122,7 +123,7 @@ public final class PokemonDataImpl implements PokemonData {
     callback.onSuccess(Party.fromJson(partyString));
   }
 
-  @Override public void addToParty(Party.Member member) {
+  @Override public void addToParty(PartyMember member) {
     String partyString = preferenceWrapper.getPartyList();
     Party party = Party.fromJson(partyString);
     party.memberList.add(member);
