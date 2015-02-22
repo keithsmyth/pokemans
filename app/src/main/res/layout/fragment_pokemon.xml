@@ -13,25 +13,31 @@
         android:gravity="center_vertical"
         style="@style/text_title"/>
 
-    <TextView
-        android:id="@+id/txt_evo"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_below="@id/txt_name"
-        android:gravity="center_vertical"
-        style="@style/text_subhead"/>
+    <ScrollView
+        android:id="@+id/layout_evo"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@id/txt_name">
+
+        <TextView
+            android:id="@+id/txt_evo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            style="@style/text_subhead"/>
+    </ScrollView>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/txt_evo">
+        android:layout_below="@id/layout_evo">
 
         <android.support.v4.view.PagerTabStrip
             android:id="@+id/pager_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top" />
+            android:layout_gravity="top"/>
 
     </android.support.v4.view.ViewPager>
 

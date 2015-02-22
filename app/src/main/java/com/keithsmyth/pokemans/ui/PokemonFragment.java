@@ -86,7 +86,12 @@ public class PokemonFragment extends BaseDataFragment<Pokemon> {
 
   private void loadEvolutions(Pokemon pokemon) {
     if (pokemon.evolutions.isEmpty()) return;
-    evoText.setText(pokemon.evolutions.get(0).toString());
+    StringBuilder stringBuilder = new StringBuilder();
+    for (Pokemon.Evolution evolution : pokemon.evolutions) {
+      if (stringBuilder.length() > 0) stringBuilder.append("\n");
+      stringBuilder.append(evolution.toString());
+    }
+    evoText.setText(stringBuilder.toString());
   }
 
 }
