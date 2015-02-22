@@ -13,6 +13,7 @@
     <string name="party_empty_list">Add Pokémon to your party</string>
 
     <string name="pick_name">Choose a Pokémon</string>
+    <string name="pick_name_party">Add a Pokémon</string>
 
     <string name="move_category">Category</string>
     <string name="move_power">Power</string>

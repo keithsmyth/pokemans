@@ -39,6 +39,7 @@ public class PickActivity extends FragmentActivity implements PickFragment.PickL
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     if (savedInstanceState == null) {
+      setTitle(isLookupMode() ? R.string.pick_name : R.string.pick_name_party);
       loadFragment(new PickFragment(), false);
     }
   }
