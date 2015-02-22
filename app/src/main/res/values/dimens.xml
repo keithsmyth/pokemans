@@ -9,5 +9,5 @@
     <dimen name="list_row">72dp</dimen>
 
     <dimen name="pokemon_type_width">52dp</dimen>
-    <dimen name="pokemon_type_padding">2dp</dimen>
+    <dimen name="pokemon_type_padding">4dp</dimen>
 </resources>

@@ -135,19 +135,21 @@ public class TypeEffectAdapter extends RecyclerView.Adapter<TypeEffectAdapter
 
   public static class TypeEffectViewHolder extends RecyclerView.ViewHolder {
 
-    private final TextView textView;
+    private final TextView nameText;
+    private final TextView numbersText;
 
     public TypeEffectViewHolder(View itemView) {
       super(itemView);
-      textView = (TextView) itemView;
+      nameText = (TextView) itemView.findViewById(R.id.txt_name);
+      numbersText = (TextView) itemView.findViewById(R.id.txt_numbers);
     }
 
     public void bind(TypeEffect typeEffect) {
-      textView.setText(String.format("%1$s %2$s / %3$s",
-          typeEffect.name,
+      itemView.setBackgroundColor(typeEffect.colour);
+      nameText.setText(typeEffect.name);
+      numbersText.setText(String.format("%1$s / %2$s",
           typeEffect.attackEffect,
           typeEffect.defenceEffect));
-      textView.setBackgroundColor(typeEffect.colour);
     }
   }
 }

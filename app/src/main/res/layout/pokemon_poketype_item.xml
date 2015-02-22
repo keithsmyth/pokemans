@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:layout_width="@dimen/pokemon_type_width"
-          android:layout_height="wrap_content"
-          android:padding="@dimen/pokemon_type_padding"
-          android:textColor="@android:color/white"
-          style="@style/text_body_1"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="@dimen/pokemon_type_width"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/pokemon_type_padding">
+
+    <TextView
+        android:id="@+id/txt_numbers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:ellipsize="none"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        style="@style/text_body_1"/>
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/txt_numbers"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        style="@style/text_body_1"/>
+</RelativeLayout>
