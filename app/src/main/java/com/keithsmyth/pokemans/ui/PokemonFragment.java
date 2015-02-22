@@ -2,12 +2,12 @@ package com.keithsmyth.pokemans.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +16,8 @@ import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.adapter.PokemonPagerAdapter;
 import com.keithsmyth.pokemans.data.Callback;
 import com.keithsmyth.pokemans.model.Pokemon;
+import com.keithsmyth.pokemans.model.Sprite;
+import com.squareup.picasso.Picasso;
 
 /**
  * @author keithsmyth
@@ -26,6 +28,7 @@ public class PokemonFragment extends BaseDataFragment<Pokemon> {
   private static final String EXTRA_ID = "extra-id";
 
   private TextView nameText;
+  private ImageView spriteView;
   private TextView evoText;
   private ViewPager pager;
 
@@ -53,6 +56,7 @@ public class PokemonFragment extends BaseDataFragment<Pokemon> {
                                                Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_pokemon, container, false);
     nameText = (TextView) view.findViewById(R.id.txt_name);
+    spriteView = (ImageView) view.findViewById(R.id.img_sprite);
     evoText = (TextView) view.findViewById(R.id.txt_evo);
     pager = (ViewPager) view.findViewById(R.id.pager);
     return view;
@@ -81,6 +85,7 @@ public class PokemonFragment extends BaseDataFragment<Pokemon> {
     if (getView() == null) return;
     nameText.setText(model.name);
     loadEvolutions(model);
+    loadSprite(model);
     pager.setAdapter(new PokemonPagerAdapter(getChildFragmentManager(), model));
   }
 
@@ -94,4 +99,21 @@ public class PokemonFragment extends BaseDataFragment<Pokemon> {
     evoText.setText(stringBuilder.toString());
   }
 
+  private void loadSprite(Pokemon pokemon) {
+    if (pokemon.sprites.isEmpty()) return;
+    App.getPokemonData().getSprite(pokemon.sprites.get(0).resource_uri,
+        new Callback<Sprite>() {
+          @Override public void onSuccess(Sprite model) {
+            if (getView() == null) return;
+            Picasso.with(getView().getContext())
+                .load(App.ENDPOINT + model.image)
+                .into(spriteView);
+          }
+
+          @Override public void onFail(String msg) {
+            if (getView() == null) return;
+            Toast.makeText(getView().getContext(), msg, Toast.LENGTH_SHORT).show();
+          }
+        });
+  }
 }

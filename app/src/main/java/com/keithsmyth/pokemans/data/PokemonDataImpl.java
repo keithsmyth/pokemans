@@ -7,6 +7,7 @@ import com.keithsmyth.pokemans.model.PartyMember;
 import com.keithsmyth.pokemans.model.PokeType;
 import com.keithsmyth.pokemans.model.Pokedex;
 import com.keithsmyth.pokemans.model.Pokemon;
+import com.keithsmyth.pokemans.model.Sprite;
 
 import java.util.HashMap;
 
@@ -135,12 +136,21 @@ public final class PokemonDataImpl implements PokemonData {
   }
 
   @Override public void getMove(String uri, final Callback<Move> callback) {
-    // cache
-
-    // api
     pokemonService.getMove(uri, new retrofit.Callback<Move>() {
       @Override public void success(Move move, Response response) {
         callback.onSuccess(move);
+      }
+
+      @Override public void failure(RetrofitError error) {
+        callback.onFail(error != null ? error.getMessage() : GENERIC_ERROR);
+      }
+    });
+  }
+
+  @Override public void getSprite(String uri, final Callback<Sprite> callback) {
+    pokemonService.getSprite(uri, new retrofit.Callback<Sprite>() {
+      @Override public void success(Sprite sprite, Response response) {
+        callback.onSuccess(sprite);
       }
 
       @Override public void failure(RetrofitError error) {

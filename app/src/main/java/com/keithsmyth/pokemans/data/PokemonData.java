@@ -6,6 +6,7 @@ import com.keithsmyth.pokemans.model.PartyMember;
 import com.keithsmyth.pokemans.model.PokeType;
 import com.keithsmyth.pokemans.model.Pokedex;
 import com.keithsmyth.pokemans.model.Pokemon;
+import com.keithsmyth.pokemans.model.Sprite;
 
 /**
  * @author keithsmyth
@@ -26,4 +27,6 @@ public interface PokemonData {
   public void clearParty();
 
   public void getMove(String uri, Callback<Move> callback);
+
+  public void getSprite(String uri, Callback<Sprite> callback);
 }

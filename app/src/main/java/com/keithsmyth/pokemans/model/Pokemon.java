@@ -25,6 +25,8 @@ public class Pokemon {
 
   public List<Move> moves;
 
+  public List<Sprite> sprites;
+
   public String getAsJson() {
     return new Gson().toJson(this);
   }
@@ -52,6 +54,11 @@ public class Pokemon {
     public String learn_type;
     public String name;
     public Integer level;
+    public String resource_uri;
+  }
+
+  public static class Sprite {
+    public String name;
     public String resource_uri;
   }
 }

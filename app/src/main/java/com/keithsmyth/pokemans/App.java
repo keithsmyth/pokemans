@@ -14,13 +14,14 @@ import retrofit.RestAdapter;
  */
 public class App extends Application {
 
+  public static final String ENDPOINT = "http://pokeapi.co/";
   private static App instance;
   private static PokemonData pokemonData;
 
   public static PokemonData getPokemonData() {
     if (pokemonData == null) {
       PokemonService pokemonService = new RestAdapter.Builder()
-          .setEndpoint("http://pokeapi.co/")
+          .setEndpoint(ENDPOINT)
           .build()
           .create(PokemonService.class);
       PreferenceWrapper preferenceWrapper = new PreferenceWrapper(instance.getApplicationContext());

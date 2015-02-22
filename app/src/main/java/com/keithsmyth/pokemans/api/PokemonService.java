@@ -4,6 +4,7 @@ import com.keithsmyth.pokemans.model.Move;
 import com.keithsmyth.pokemans.model.PokeType;
 import com.keithsmyth.pokemans.model.Pokedex;
 import com.keithsmyth.pokemans.model.Pokemon;
+import com.keithsmyth.pokemans.model.Sprite;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -26,4 +27,7 @@ public interface PokemonService {
 
   @GET("/{uri}") void getMove(@Path(value = "uri", encode = false) String uri,
                                   Callback<Move> callback);
+
+  @GET("/{uri}") void getSprite(@Path(value = "uri", encode = false) String uri,
+                              Callback<Sprite> callback);
 }
