@@ -11,7 +11,8 @@ import com.keithsmyth.pokemans.model.Pokemon;
 
 
 public class MainActivity extends FragmentActivity implements
-    FragmentManager.OnBackStackChangedListener, PartyFragment.PartyListener, MovesListFragment.MoveListFragmentListener {
+    FragmentManager.OnBackStackChangedListener, PartyFragment.PartyListener,
+    MovesListFragment.MoveListFragmentListener {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -28,17 +29,19 @@ public class MainActivity extends FragmentActivity implements
   }
 
   private void loadFragment(Fragment fragment, boolean addToBackStack) {
-    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-        .replace(R.id.container, fragment);
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
     if (addToBackStack) {
+      transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
       transaction.addToBackStack(fragment.getClass().getSimpleName());
     }
+    transaction.replace(R.id.container, fragment);
     transaction.commit();
   }
 
   @Override public void onBackStackChanged() {
     if (getActionBar() == null) return;
-    getActionBar().setDisplayHomeAsUpEnabled(getSupportFragmentManager().getBackStackEntryCount() > 0);
+    getActionBar().setDisplayHomeAsUpEnabled(
+        getSupportFragmentManager().getBackStackEntryCount() > 0);
   }
 
   @Override public boolean onNavigateUp() {

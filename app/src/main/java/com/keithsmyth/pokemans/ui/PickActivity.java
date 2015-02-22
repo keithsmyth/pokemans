@@ -45,11 +45,12 @@ public class PickActivity extends FragmentActivity implements PickFragment.PickL
   }
 
   private void loadFragment(Fragment fragment, boolean addToBackStack) {
-    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-        .replace(R.id.container, fragment);
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
     if (addToBackStack) {
+      transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
       transaction.addToBackStack(fragment.getClass().getSimpleName());
     }
+    transaction.replace(R.id.container, fragment);
     transaction.commit();
   }
 
