@@ -11,7 +11,8 @@ import com.keithsmyth.pokemans.model.Pokemon;
 
 
 public class MainActivity extends FragmentActivity implements
-    FragmentManager.OnBackStackChangedListener, PartyFragment.PartyListener,
+    FragmentManager.OnBackStackChangedListener,
+    PartyFragment.PartyListener,
     MovesListFragment.MoveListFragmentListener {
 
   @Override
@@ -22,10 +23,6 @@ public class MainActivity extends FragmentActivity implements
       getSupportFragmentManager().addOnBackStackChangedListener(this);
       loadFragment(new PartyFragment(), false);
     }
-  }
-
-  @Override public void onPokemonPicked(long pokemonId) {
-    loadFragment(PokemonFragment.instantiate(pokemonId), true);
   }
 
   private void loadFragment(Fragment fragment, boolean addToBackStack) {
@@ -47,6 +44,10 @@ public class MainActivity extends FragmentActivity implements
   @Override public boolean onNavigateUp() {
     getSupportFragmentManager().popBackStack();
     return true;
+  }
+
+  @Override public void onPokemonPicked(long pokemonId) {
+    loadFragment(PokemonFragment.instantiate(pokemonId), true);
   }
 
   @Override public void onMoveClicked(Pokemon.Move move) {
