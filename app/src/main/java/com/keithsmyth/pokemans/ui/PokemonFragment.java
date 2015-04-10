@@ -1,5 +1,6 @@
 package com.keithsmyth.pokemans.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -62,6 +63,8 @@ public class PokemonFragment extends BaseDataFragment<Pokemon> {
     evoText = (TextView) view.findViewById(R.id.txt_evo);
     pager = (ViewPager) view.findViewById(R.id.pager);
     tabLayout = (SlidingTabLayout) view.findViewById(R.id.layout_tabs);
+    tabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.primary));
+    tabLayout.setDividerColors(Color.TRANSPARENT);
     return view;
   }
 
