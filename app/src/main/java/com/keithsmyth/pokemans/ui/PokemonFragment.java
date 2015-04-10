@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.keithsmyth.pokemans.App;
 import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.adapter.PokemonPagerAdapter;
+import com.keithsmyth.pokemans.custom.SlidingTabLayout;
 import com.keithsmyth.pokemans.data.Callback;
 import com.keithsmyth.pokemans.model.Pokemon;
 import com.keithsmyth.pokemans.model.Sprite;
@@ -31,6 +32,7 @@ public class PokemonFragment extends BaseDataFragment<Pokemon> {
   private ImageView spriteView;
   private TextView evoText;
   private ViewPager pager;
+  private SlidingTabLayout tabLayout;
 
   public static PokemonFragment instantiate(String uri) {
     Bundle bundle = new Bundle();
@@ -59,6 +61,7 @@ public class PokemonFragment extends BaseDataFragment<Pokemon> {
     spriteView = (ImageView) view.findViewById(R.id.img_sprite);
     evoText = (TextView) view.findViewById(R.id.txt_evo);
     pager = (ViewPager) view.findViewById(R.id.pager);
+    tabLayout = (SlidingTabLayout) view.findViewById(R.id.layout_tabs);
     return view;
   }
 
@@ -87,6 +90,7 @@ public class PokemonFragment extends BaseDataFragment<Pokemon> {
     loadEvolutions(model);
     loadSprite(model);
     pager.setAdapter(new PokemonPagerAdapter(getChildFragmentManager(), model));
+    tabLayout.setViewPager(pager);
   }
 
   private void loadEvolutions(Pokemon pokemon) {
