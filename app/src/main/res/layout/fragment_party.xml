@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lst_party"
@@ -13,32 +12,22 @@
         android:id="@+id/txt_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:text="@string/party_empty_list"/>
-
-    <com.keithsmyth.pokemans.custom.FloatingActionButton
-        android:id="@+id/btn_add"
-        android:layout_width="@dimen/fab"
-        android:layout_height="@dimen/fab"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:background="@drawable/fab_background">
-
-        <ImageView
-            android:layout_width="@dimen/fab_icon"
-            android:layout_height="@dimen/fab_icon"
-            android:src="@drawable/ic_add"
-            android:layout_gravity="center"
-            android:duplicateParentState="true"
-            android:tint="@android:color/white"
-            tools:ignore="ContentDescription"/>
-    </com.keithsmyth.pokemans.custom.FloatingActionButton>
 
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:visibility="gone"/>
-</RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_white_24dp"/>
+
+</FrameLayout>

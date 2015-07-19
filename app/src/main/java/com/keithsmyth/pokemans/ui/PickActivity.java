@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 
 import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.model.PartyMember;
@@ -15,7 +15,7 @@ import com.keithsmyth.pokemans.model.Pokemon;
 /**
  * @author keithsmyth
  */
-public class PickActivity extends FragmentActivity implements PickFragment.PickListener,
+public class PickActivity extends AppCompatActivity implements PickFragment.PickListener,
     MovesListFragment.MoveListFragmentListener {
 
   public static final String LOOKUP_KEY = "LOOKUP_KEY";

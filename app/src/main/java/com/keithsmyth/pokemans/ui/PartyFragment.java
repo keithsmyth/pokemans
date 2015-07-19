@@ -1,11 +1,10 @@
 package com.keithsmyth.pokemans.ui;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,13 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
 
 import com.keithsmyth.pokemans.App;
 import com.keithsmyth.pokemans.R;
 import com.keithsmyth.pokemans.adapter.PartyAdapter;
-import com.keithsmyth.pokemans.custom.FloatingActionButton;
 import com.keithsmyth.pokemans.model.Party;
 import com.keithsmyth.pokemans.model.PartyMember;
 
@@ -33,7 +29,6 @@ public class PartyFragment extends BaseDataFragment<Party> {
   private View emptyView;
   private RecyclerView partyListView;
   private PartyListener partyListener;
-  private FloatingActionButton addButton;
 
   @Override protected Class<Party> getModelType() {
     return Party.class;
@@ -67,24 +62,24 @@ public class PartyFragment extends BaseDataFragment<Party> {
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                                Bundle savedInstanceState) {
-    View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_party, container,
-        false);
+    return inflater.inflate(R.layout.fragment_party, container, false);
+  }
 
+  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     emptyView = view.findViewById(R.id.txt_empty);
 
     partyListView = (RecyclerView) view.findViewById(R.id.lst_party);
     partyListView.setLayoutManager(new LinearLayoutManager(getActivity()));
     partyListView.setHasFixedSize(true);
 
-    addButton = (FloatingActionButton) view.findViewById(R.id.btn_add);
-    addButton.setOnClickListener(new View.OnClickListener() {
+    view.findViewById(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         Intent intent = PickActivity.forParty(getActivity());
         startActivityForResult(intent, PICK_REQUEST_CODE);
       }
     });
 
-    return view;
+    super.onViewCreated(view, savedInstanceState);
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -115,29 +110,7 @@ public class PartyFragment extends BaseDataFragment<Party> {
     emptyView.setVisibility(model.memberList.isEmpty() ? View.VISIBLE : View.GONE);
   }
 
-  @Override public void onStop() {
-    super.onStop();
-    animateButton(true);
-  }
-
-  @Override public void onStart() {
-    super.onStart();
-    animateButton(false);
-  }
-
-  private void animateButton(boolean hide) {
-    float from = hide ? 1 : 0;
-    float to = hide ? 0 : 1;
-    ObjectAnimator animateX = ObjectAnimator.ofFloat(addButton, "scaleX", from, to);
-    ObjectAnimator animateY = ObjectAnimator.ofFloat(addButton, "scaleY", from, to);
-    AnimatorSet animatorSet = new AnimatorSet();
-    animatorSet.playTogether(animateX, animateY);
-    animatorSet.setInterpolator(new AccelerateInterpolator());
-    animatorSet.setDuration(500);
-    animatorSet.start();
-  }
-
-  public static interface PartyListener {
-    public void onPokemonPicked(long pokemonId);
+  public interface PartyListener {
+    void onPokemonPicked(long pokemonId);
   }
 }
